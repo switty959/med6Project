@@ -12,8 +12,7 @@ public class Server : MonoBehaviour
     static Socket listener;
     private CancellationTokenSource source;
     public ManualResetEvent allDone;
-    public Renderer objectRenderer;
-    private Color matColor;
+    public Vector2[] positionForJoints = new Vector2[17];
 
     public static readonly int PORT = 1755;
     public static readonly int WAITTIME = 1;
@@ -28,15 +27,16 @@ public class Server : MonoBehaviour
     // Start is called before the first frame update
     async void Start()
     {
-        objectRenderer = GetComponent<Renderer>();
         await Task.Run(() => ListenEvents(source.Token));
+
+        for (int i = 0; i < positionForJoints.Length; i++)
+        {
+            
+        }
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        objectRenderer.material.color = matColor;
-    }
+
 
     private void ListenEvents(CancellationToken token)
     {
@@ -60,7 +60,7 @@ public class Server : MonoBehaviour
             {
                 allDone.Reset();
 
-                print("Waiting for a connection... host :" + ipAddress.MapToIPv4().ToString() + " port : " + PORT);
+                //print("Waiting for a connection... host :" + ipAddress.MapToIPv4().ToString() + " port : " + PORT);
                 listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
 
                 while (!token.IsCancellationRequested)
@@ -109,26 +109,61 @@ public class Server : MonoBehaviour
             if (state.colorCode.Length > 1)
             {
                 string content = state.colorCode.ToString();
-                print($"Read {content.Length} bytes from socket.\n Data : {content}");
-                SetColors(content);
+                char[] testsubject;
+                string[] singlebodyPart = content.Split('|');
+                //print($"Read {content.Length} bytes from socket.\n Data : {content}");
+                for (int i = 0; i <  positionForJoints.Length; i++)
+                {
+                    //Debug.Log(singlebodyPart[i]);
+                    for (int j = 0; j < singlebodyPart.Length; j++)
+                    {
+                        testsubject = new char[singlebodyPart.Length];
+                        testsubject = singlebodyPart[j].ToCharArray();
+                        if (testsubject.Length == 12)
+                        {
+                            int xvalue;
+                            int yvalue;
+                            int id;
+                            string xstring = testsubject[3].ToString() + testsubject[4].ToString() + testsubject[5].ToString();
+                            string ystring = testsubject[8].ToString() + testsubject[9].ToString() + testsubject[10].ToString();
+                            string idstring = testsubject[0].ToString() + testsubject[1].ToString();
+                            
+                            int.TryParse(idstring, out id);
+                            int.TryParse(xstring, out xvalue);
+                            int.TryParse(ystring, out yvalue);
+                            positionForJoints[id].x = xvalue;
+                            positionForJoints[id].y = yvalue;
+                            Debug.Log(idstring +": x:" + xvalue + " y: " + yvalue);
+                            
+                        }
+                        else if ( testsubject.Length == 11)
+                        {
+                            int xvalue;
+                            int yvalue;
+                            int id;
+                            string xstring = testsubject[2].ToString() + testsubject[3].ToString() + testsubject[4].ToString();
+                            string ystring = testsubject[7].ToString() + testsubject[8].ToString() + testsubject[9].ToString();
+                            string idstring = testsubject[0].ToString();
+                            int.TryParse(idstring, out id);
+                            int.TryParse(ystring, out yvalue);
+                            int.TryParse(xstring, out xvalue);
+                            positionForJoints[id].x = xvalue;
+                            positionForJoints[id].y = yvalue;
+                            Debug.Log(idstring + ": x:" + xvalue + " y: " + yvalue);
+                            
+                        }
+                    }
+
+                }
+                
             }
             handler.Close();
         }
-    }
-
-    //Set color to the Material
-    private void SetColors(string data)
-    {
-        string[] colors = data.Split(',');
-        matColor = new Color()
-        {
-            r = float.Parse(colors[0]) / 255.0f,
-            g = float.Parse(colors[1]) / 255.0f,
-            b = float.Parse(colors[2]) / 255.0f,
-            a = float.Parse(colors[3]) / 255.0f
-        };
 
     }
+
+    //Set color to the Materia
+   
 
     private void OnDestroy()
     {

@@ -7,10 +7,10 @@ import socket
 import random
 from time import sleep
 
-host, port = "192.168.0.107", 1755
+host, port = "172.30.245.33", 1755
 parser = argparse.ArgumentParser()
 parser.add_argument('--input', help='Path to image or video. Skip to capture frames from camera')
-parser.add_argument('--thr', default=0.2, type=float, help='Threshold value for pose parts heat map')
+parser.add_argument('--thr', default=0.25, type=float, help='Threshold value for pose parts heat map')
 parser.add_argument('--width', default=368, type=int, help='Resize input to specific width.')
 parser.add_argument('--height', default=368, type=int, help='Resize input to specific height.')
 
@@ -30,7 +30,7 @@ POSE_PAIRS = [ ["Neck", "RShoulder"], ["Neck", "LShoulder"], ["RShoulder", "RElb
 inWidth = args.width
 inHeight = args.height
 
-net = cv.dnn.readNetFromTensorflow("client/graph_opt.pb")
+net = cv.dnn.readNetFromTensorflow("graph_opt.pb")
 
 cap = cv.VideoCapture(args.input if args.input else 0)
 
@@ -43,7 +43,6 @@ if not cap.isOpened():
 while True:   
     # openCV section
     ret, frame = cap.read()
-
     # if frame is read correctly ret is True
     if not ret:
         print("Can't receive frame (stream end?). Exiting ...")
@@ -93,20 +92,24 @@ while True:
     cv.putText(frame, '%.2fms' % (t / freq), (10, 20), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
 
     cv.imshow('OpenPose using OpenCV', frame)
-
+   
+    s = socket.socket() 
+    s.connect((host, port))
     for x in range(len(POSE_PAIRS)):
-        pose = POSE_PAIRS[x]
+        pose = x
         joints = points[x]
-        combinedString = pose, ": ",joints
-        print(str(combinedString))
+        combinedString = str(pose)+str(joints) +'|'
+        print(combinedString)
+        s.sendall(combinedString.encode())
+        
 
     #connection
     
     #data being send
-    s = socket.socket() 
-    s.connect((host, port))
-    s.send(str(combinedString).encode())
+    
+    
     s.close()
+    
 
     if cv.waitKey(1) == ord('q'):
         break
