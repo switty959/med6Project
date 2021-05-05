@@ -3,39 +3,14 @@
 import numpy as np
 import cv2 as cv
 import argparse
-
 import socket
 
-host, port = "192.168.0.107", 1755
+
 data = "true"
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--input', help='Path to image or video. Skip to capture frames from camera')
-parser.add_argument('--thr', default=0.2, type=float, help='Threshold value for pose parts heat map')
-parser.add_argument('--width', default=368, type=int, help='Resize input to specific width.')
-parser.add_argument('--height', default=368, type=int, help='Resize input to specific height.')
 
-args = parser.parse_args()
-
-BODY_PARTS = { "Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
-               "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
-               "RAnkle": 10, "LHip": 11, "LKnee": 12, "LAnkle": 13, "REye": 14,
-               "LEye": 15, "REar": 16, "LEar": 17, "Background": 18 }
-
-POSE_PAIRS = [ ["Neck", "RShoulder"], ["Neck", "LShoulder"], ["RShoulder", "RElbow"],
-               ["RElbow", "RWrist"], ["LShoulder", "LElbow"], ["LElbow", "LWrist"],
-               ["Neck", "RHip"], ["RHip", "RKnee"], ["RKnee", "RAnkle"], ["Neck", "LHip"],
-               ["LHip", "LKnee"], ["LKnee", "LAnkle"], ["Neck", "Nose"], ["Nose", "REye"],
-               ["REye", "REar"], ["Nose", "LEye"], ["LEye", "LEar"] ]
-
-inWidth = args.width
-inHeight = args.height
-
-net = cv.dnn.readNetFromTensorflow("client/graph_opt.pb")
-
-cap = cv.VideoCapture(args.input if args.input else 0)
 
 s.connect((host, port))
 

@@ -7,7 +7,7 @@ import socket
 import random
 from time import sleep
 
-host, port = "172.30.245.33", 1755
+host, port = "192.168.0.107", 1755
 parser = argparse.ArgumentParser()
 parser.add_argument('--input', help='Path to image or video. Skip to capture frames from camera')
 parser.add_argument('--thr', default=0.25, type=float, help='Threshold value for pose parts heat map')
@@ -30,10 +30,10 @@ POSE_PAIRS = [ ["Neck", "RShoulder"], ["Neck", "LShoulder"], ["RShoulder", "RElb
 inWidth = args.width
 inHeight = args.height
 
-net = cv.dnn.readNetFromTensorflow("graph_opt.pb")
+net = cv.dnn.readNetFromTensorflow("client/graph_opt.pb")
 
-#cap = cv.VideoCapture(args.input if args.input else 0)
-cap = cv.VideoCapture(2)
+cap = cv.VideoCapture(args.input if args.input else 0)
+#cap = cv.VideoCapture(2)
 
 
 

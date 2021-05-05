@@ -60,7 +60,7 @@ public class Server : MonoBehaviour
             {
                 allDone.Reset();
 
-                //print("Waiting for a connection... host :" + ipAddress.MapToIPv4().ToString() + " port : " + PORT);
+                print("Waiting for a connection... host :" + ipAddress.MapToIPv4().ToString() + " port : " + PORT);
                 listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
 
                 while (!token.IsCancellationRequested)
