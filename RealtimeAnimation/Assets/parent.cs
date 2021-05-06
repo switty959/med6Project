@@ -6,7 +6,7 @@ public class parent : MonoBehaviour
 {
     public GameObject[] joints;
     public Vector2[] newpos;
-    public Vector2 rotation;
+    public Transform[] parents;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,8 +16,21 @@ public class parent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        joints[0].transform.localEulerAngles = new Vector3(rotation.x,rotation.y,0);
         for (int i = 0; i < joints.Length; i++)
+        {
+            if (joints[i].name != "shoulder")
+            {
+                joints[i].transform.parent = null;
+            }
+            joints[i].transform.position = newpos[i];
+            if (joints[i].name != "shoulder")
+            {
+                joints[i].transform.parent = parents[i];
+                joints[i].transform.localPosition = newpos[i];
+            }
+
+        }
+       /* for (int i = 0; i < joints.Length; i++)
         {
             if (i==0)
             {
@@ -31,6 +44,6 @@ public class parent : MonoBehaviour
             {
                 joints[i].transform.position = newpos[1];
             }
-        }
+        }*/
     }
 }

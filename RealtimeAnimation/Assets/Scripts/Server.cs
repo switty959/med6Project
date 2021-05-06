@@ -13,8 +13,8 @@ public class Server : MonoBehaviour
     private CancellationTokenSource source;
     public ManualResetEvent allDone;
     public Vector2[] positionForJoints = new Vector2[17];
-
-    public static readonly int PORT = 1755;
+    
+    public static readonly int PORT = 25001;
     public static readonly int WAITTIME = 1;
 
 
@@ -43,7 +43,7 @@ public class Server : MonoBehaviour
 
 
         IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-        IPAddress ipAddress = ipHostInfo.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+        IPAddress ipAddress = System.Net.IPAddress.Parse("127.0.0.1");
         IPEndPoint localEndPoint = new IPEndPoint(ipAddress, PORT);
 
 
