@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.4512267, g: 0.49997228, b: 0.5683239, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -141,6 +141,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 16b420f2fc2a4b5408311aa7409c82da, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 16b420f2fc2a4b5408311aa7409c82da, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -153,6 +157,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 16b420f2fc2a4b5408311aa7409c82da, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 16b420f2fc2a4b5408311aa7409c82da, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -163,14 +171,6 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 16b420f2fc2a4b5408311aa7409c82da, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 16b420f2fc2a4b5408311aa7409c82da, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 16b420f2fc2a4b5408311aa7409c82da, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 16b420f2fc2a4b5408311aa7409c82da, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -213,11 +213,11 @@ PrefabInstance:
       value: 7.65
       objectReference: {fileID: 0}
     - target: {fileID: -1853094968961178454, guid: 16b420f2fc2a4b5408311aa7409c82da, type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0
+      propertyPath: m_ClearFlags
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -1853094968961178454, guid: 16b420f2fc2a4b5408311aa7409c82da, type: 3}
-      propertyPath: m_BackGroundColor.g
+      propertyPath: m_BackGroundColor.a
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -1853094968961178454, guid: 16b420f2fc2a4b5408311aa7409c82da, type: 3}
@@ -225,12 +225,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -1853094968961178454, guid: 16b420f2fc2a4b5408311aa7409c82da, type: 3}
-      propertyPath: m_BackGroundColor.a
+      propertyPath: m_BackGroundColor.g
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -1853094968961178454, guid: 16b420f2fc2a4b5408311aa7409c82da, type: 3}
-      propertyPath: m_ClearFlags
-      value: 2
+      propertyPath: m_BackGroundColor.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 16b420f2fc2a4b5408311aa7409c82da, type: 3}
       propertyPath: m_Name
@@ -274,6 +274,7 @@ GameObject:
   m_Component:
   - component: {fileID: 704112900}
   - component: {fileID: 704112899}
+  - component: {fileID: 704112901}
   m_Layer: 0
   m_Name: server
   m_TagString: Untagged
@@ -325,6 +326,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &704112901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704112898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ca5761d13d6d6d4faebe4cc94f29a3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 1565633873}
+  prefab: {fileID: 2064771119739059888, guid: de4089ad2c895f14581d7354a4955cbb, type: 3}
+  arrayOfjoints: []
+  server: {fileID: 0}
 --- !u!1 &868501674
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,6 +511,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &1565633872
 Canvas:
   m_ObjectHideFlags: 0
@@ -620,6 +638,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!4 &1617248712

@@ -16,10 +16,10 @@ public class JointScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        arrayOfJoints[0].transform.localPosition = new Vector2(0, 0);
-        float newb = Vector2.Distance(server.positionForJoints[2],arrayOfJoints[0].transform.position);
-        arrayOfJoints[1].transform.localPosition = new Vector2(arrayOfJoints[0].transform.position.x+newb, arrayOfJoints[0].transform.position.y + newb);
+        Vector2 inversPos = server.positionForJoints[0];
+        arrayOfJoints[0].transform.position = server.positionForJoints[0];
+        arrayOfJoints[0].transform.InverseTransformPoint(arrayOfJoints[0].transform.position);
+       
 
         /* float newshoulderX = remap(server.positionForJoints[0].x,0, 368, 0,3);
          float newshouldery = remap(server.positionForJoints[0].y, 0, 368, 0,3);
